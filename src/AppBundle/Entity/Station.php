@@ -24,42 +24,42 @@ class Station
     /**
      * @var string
      *
-     * @ORM\Column(name="adress", type="string", length=255)
+     * @ORM\Column(name="adress", type="string", length=255, nullable=true)
      */
     private $adress;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="status", type="boolean")
+     * @ORM\Column(name="status", type="boolean", nullable=true)
      */
     private $status;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="bikes", type="integer")
+     * @ORM\Column(name="bikes", type="integer", nullable=true)
      */
     private $bikes;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="attachs", type="integer")
+     * @ORM\Column(name="attachs", type="integer", nullable=true)
      */
     private $attachs;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="paiement", type="boolean")
+     * @ORM\Column(name="paiement", type="boolean", nullable=true)
      */
     private $paiement;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="lastupd", type="datetime")
+     * @ORM\Column(name="lastupd", type="datetime", nullable=true)
      */
     private $lastupd;
 
@@ -69,6 +69,20 @@ class Station
      * @ORM\Column(name="stationid", type="integer")
      */
     private $stationid;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="latitude", type="float")
+     */
+    private $lat;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="longitude", type="float")
+     */
+    private $lng;
 
     /**
      * Get id
@@ -232,5 +246,37 @@ class Station
     public function setStationid($stationid)
     {
         $this->stationid = $stationid;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    /**
+     * @param float $lat
+     */
+    public function setLat($lat)
+    {
+        $this->lat = $lat;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLng()
+    {
+        return $this->lng;
+    }
+
+    /**
+     * @param float $lng
+     */
+    public function setLng($lng)
+    {
+        $this->lng = $lng;
     }
 }

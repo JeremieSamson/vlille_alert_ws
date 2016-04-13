@@ -20,7 +20,6 @@ class SyncStationsCommand extends ContainerAwareCommand
 {
     const URL = "http://vlille.fr/stations/xml-station.aspx";
     const KEY = "borne";
-    const STATIONS_NUMBER = 147;
 
     /**
      * @inheritdoc
@@ -28,7 +27,7 @@ class SyncStationsCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('vlille:sync:stations')
+            ->setName('vlille:sync:stations:infos')
             ->setDescription('Sync with VLille API')
         ;
     }
@@ -61,20 +60,19 @@ class SyncStationsCommand extends ContainerAwareCommand
 
         /** @var ArrayCollection $stations */
         $stations = $em->getRepository('AppBundle:Station')->findAll();
-        $size = (count($stations) > 0) ? count($stations) : self::STATIONS_NUMBER;
-
-        $station_id = 1;
-        $hasAdress  = false;
+        $size = count($stations);
 
         // Starting progress
         $output->writeln('<comment>Starting synchronisation ...</comment>');
         $progress = new ProgressBar($output, $size);
         $progress->start();
 
-        do {
+        /** @var Station $station */
+        foreach($stations as $station)
+        {
             $doc = new \DOMDocument();
 
-            $url = self::URL . '?' . self::KEY . '=' . $station_id;
+            $url = self::URL . '?' . self::KEY . '=' . $station->getStationid();
 
             if (($xml = file_get_contents($url)) === false){
                 $output->writeln('<error>Error fetching XML</error>');
@@ -82,14 +80,14 @@ class SyncStationsCommand extends ContainerAwareCommand
                 $xml = preg_replace('/(<\?xml[^?]+?)utf-16/i', '$1utf-8', $xml);
 
                 if ($doc->loadXML($xml)) {
+                    /** @var \DOMNodeList $stations_xml */
                     $stations_xml = $doc->getElementsByTagName('station');
 
+                    /** @var \DOMNode $station_xml */
                     foreach($stations_xml as $station_xml) {
                         $adress  = $station_xml->getElementsByTagName('adress')->item(0)->nodeValue;
-                        $hasAdress = !empty($adress);
 
-                        if ($hasAdress) {
-
+                        if (!empty($adress)) {
                             $status  = $station_xml->getElementsByTagName('status')->item(0)->nodeValue;
                             $bikes   = $station_xml->getElementsByTagName('bikes')->item(0)->nodeValue;
                             $attachs = $station_xml->getElementsByTagName('attachs')->item(0)->nodeValue;
@@ -100,10 +98,6 @@ class SyncStationsCommand extends ContainerAwareCommand
                             $date = new \DateTime();
                             $date->modify("-$lastupd seconds");
 
-                            $station_db = $em->getRepository('AppBundle:Station')->findOneBy(array("stationid" => $station_id));
-
-                            $station = (!$station_db) ? new Station() : $station_db;
-
                             $station->setAdress($adress);
                             $station->setStatus($status);
                             $station->setBikes($bikes);
@@ -111,26 +105,15 @@ class SyncStationsCommand extends ContainerAwareCommand
                             $station->setPaiement($paiement);
                             $station->setLastupd($date);
 
-                            if (!$station_db) {
-                                $station->setStationid($station_id);
-
-                                $em->persist($station);
-                            }
-
-                            $output->writeln("<comment>" . ((!$station_db) ? "import" : "update") ." station $adress with id $station_id</comment>");
+                            $output->writeln("<comment>update station $adress with id " .$station->getStationid(). "</comment>");
 
                             $em->flush();
-                        } else {
-                            $output->writeln('<error>No station with id ' . $station_id . '</error>');
                         }
                     }
                 }
             }
-
             $progress->advance(1);
-
-            $station_id++;
-        }while($hasAdress);
+        };
 
         // Ending the progress bar process
         $progress->finish();
