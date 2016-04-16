@@ -3,12 +3,17 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\VirtualProperty;
 
 /**
  * Station
  *
  * @ORM\Table(name="station")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\StationRepository")
+ * @ExclusionPolicy("all")
  */
 class Station
 {
@@ -18,6 +23,8 @@ class Station
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Expose
+     * @Groups({"default"})
      */
     private $id;
 
@@ -25,6 +32,8 @@ class Station
      * @var string
      *
      * @ORM\Column(name="adress", type="string", length=255, nullable=true)
+     * @Expose
+     * @Groups({"default"})
      */
     private $adress;
 
@@ -32,6 +41,8 @@ class Station
      * @var bool
      *
      * @ORM\Column(name="status", type="boolean", nullable=true)
+     * @Expose
+     * @Groups({"default"})
      */
     private $status;
 
@@ -39,6 +50,8 @@ class Station
      * @var int
      *
      * @ORM\Column(name="bikes", type="integer", nullable=true)
+     * @Expose
+     * @Groups({"default"})
      */
     private $bikes;
 
@@ -46,6 +59,8 @@ class Station
      * @var int
      *
      * @ORM\Column(name="attachs", type="integer", nullable=true)
+     * @Expose
+     * @Groups({"default"})
      */
     private $attachs;
 
@@ -53,6 +68,8 @@ class Station
      * @var bool
      *
      * @ORM\Column(name="paiement", type="boolean", nullable=true)
+     * @Expose
+     * @Groups({"default"})
      */
     private $paiement;
 
@@ -60,6 +77,8 @@ class Station
      * @var \DateTime
      *
      * @ORM\Column(name="lastupd", type="datetime", nullable=true)
+     * @Expose
+     * @Groups({"default"})
      */
     private $lastupd;
 
@@ -67,6 +86,8 @@ class Station
      * @var int
      *
      * @ORM\Column(name="stationid", type="integer")
+     * @Expose
+     * @Groups({"default"})
      */
     private $stationid;
 
@@ -74,6 +95,8 @@ class Station
      * @var float
      *
      * @ORM\Column(name="latitude", type="float")
+     * @Expose
+     * @Groups({"default"})
      */
     private $lat;
 
@@ -81,6 +104,8 @@ class Station
      * @var float
      *
      * @ORM\Column(name="longitude", type="float")
+     * @Expose
+     * @Groups({"default"})
      */
     private $lng;
 
