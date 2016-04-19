@@ -1,0 +1,3 @@
+api_sections :
+  type: rest
+  resource: "@AppBundle/Controller/Rest/StationRestController.php"
