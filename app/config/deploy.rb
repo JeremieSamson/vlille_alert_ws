@@ -46,7 +46,7 @@ def self.directory?(path)
 end
 set :shared_files,      ["app/config/parameters.yml"]
 set :shared_children,     [app_path + "/logs", "vendor"]
-
+set :permission_method, :acl
 set :composer_options, "--no-dev --verbose --prefer-dist --optimize-autoloader --no-progress"
 
 # Run deployment
