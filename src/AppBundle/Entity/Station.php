@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
@@ -47,24 +48,6 @@ class Station
     private $status;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="bikes", type="integer", nullable=true)
-     * @Expose
-     * @Groups({"default"})
-     */
-    private $bikes;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="attachs", type="integer", nullable=true)
-     * @Expose
-     * @Groups({"default"})
-     */
-    private $attachs;
-
-    /**
      * @var bool
      *
      * @ORM\Column(name="paiement", type="boolean", nullable=true)
@@ -108,6 +91,28 @@ class Station
      * @Groups({"default"})
      */
     private $lng;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AttachsAvailable", mappedBy="station")
+     */
+    private $attachs;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="BikesAvailable", mappedBy="station")
+     */
+    private $bikes;
+
+    /**
+     * Constructor
+     */
+    public function __construct(){
+        $this->attachs = new ArrayCollection();
+        $this->bikes   = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -166,14 +171,25 @@ class Station
     }
 
     /**
-     * Set bikes
+     * @param BikesAvailable $bike
      *
-     * @param integer $bikes
-     * @return Station
+     * @return $this
      */
-    public function setBikes($bikes)
-    {
-        $this->bikes = $bikes;
+    public function addBike(BikesAvailable $bike){
+        $this->bikes->add($bike);
+
+        $bike->setStation($this);
+
+        return $this;
+    }
+
+    /**
+     * @param BikesAvailable $bike
+     *
+     * @return $this
+     */
+    public function removeBike(BikesAvailable $bike){
+        $this->bikes->removeElement($bike);
 
         return $this;
     }
@@ -181,7 +197,7 @@ class Station
     /**
      * Get bikes
      *
-     * @return integer 
+     * @return ArrayCollection
      */
     public function getBikes()
     {
@@ -189,14 +205,25 @@ class Station
     }
 
     /**
-     * Set attachs
+     * @param AttachsAvailable $attach
      *
-     * @param integer $attachs
-     * @return Station
+     * @return $this
      */
-    public function setAttachs($attachs)
-    {
-        $this->attachs = $attachs;
+    public function addAttach(AttachsAvailable $attach){
+        $this->attachs->add($attach);
+
+        $attach->setStation($this);
+
+        return $this;
+    }
+
+    /**
+     * @param AttachsAvailable $attach
+     *
+     * @return $this
+     */
+    public function removeAttach(AttachsAvailable $attach){
+        $this->attachs->removeElement($attach);
 
         return $this;
     }
@@ -204,7 +231,7 @@ class Station
     /**
      * Get attachs
      *
-     * @return integer 
+     * @return ArrayCollection
      */
     public function getAttachs()
     {

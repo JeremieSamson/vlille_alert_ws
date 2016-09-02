@@ -2,6 +2,8 @@
 
 namespace AppBundle\Command;
 
+use AppBundle\Entity\AttachsAvailable;
+use AppBundle\Entity\BikesAvailable;
 use AppBundle\Entity\Station;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
@@ -85,7 +87,7 @@ class SyncStationsCommand extends ContainerAwareCommand
 
                     /** @var \DOMNode $station_xml */
                     foreach($stations_xml as $station_xml) {
-                        $adress  = $station_xml->getElementsByTagName('adress')->item(0)->nodeValue;
+                        $adress  = trim($station_xml->getElementsByTagName('adress')->item(0)->nodeValue);
 
                         if (!empty($adress)) {
                             $status  = $station_xml->getElementsByTagName('status')->item(0)->nodeValue;
@@ -100,8 +102,25 @@ class SyncStationsCommand extends ContainerAwareCommand
 
                             $station->setAdress($adress);
                             $station->setStatus($status);
-                            $station->setBikes($bikes);
-                            $station->setAttachs($attachs);
+
+                            //Add new bikes availabilty
+                            $bikeAvailability = new BikesAvailable();
+                            $bikeAvailability->setBikes($bikes);
+                            $station->addBike($bikeAvailability);
+                            $em->persist($bikeAvailability);
+
+                            //Add new attach availabilty
+                            $attachAvailability = new AttachsAvailable();
+                            $attachAvailability->setAttachs($attachs);
+                            $station->addAttach($attachAvailability);
+                            $em->persist($attachAvailability);
+
+                            //Send email if no places left
+                            if ($adress == "41 RUE DES ARTS" && $attachAvailability->getAttachs() == 0){
+                                $this->sendEmail();
+                            }
+
+                            $paiement = ("AVEC_TPE") ? true : false;
                             $station->setPaiement($paiement);
                             $station->setLastupd($date);
 
@@ -118,6 +137,23 @@ class SyncStationsCommand extends ContainerAwareCommand
         // Ending the progress bar process
         $progress->finish();
 
+    }
+
+    /**
+     * Send Email
+     */
+    protected function sendEmail(){
+        $message = \Swift_Message::newInstance()
+            ->setSubject("Il n'y a plus de place !")
+            ->setFrom('noreply@vlille-alert.com')
+            ->setTo('jeremie.samson76@gmail.com')
+            ->setBody(
+                ":'(",
+                'text/html'
+            )
+        ;
+
+        $this->getContainer()->get('mailer')->send($message);
     }
 
     /**
