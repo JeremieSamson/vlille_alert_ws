@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Station;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -12,4 +13,29 @@ use Doctrine\ORM\EntityRepository;
  */
 class BikesAvailableRepository extends EntityRepository
 {
+    /**
+     * @param Station $station
+     * @param \DateTime $start
+     * @param null $end
+     * @return array
+     */
+    public function findBikesByDate(Station $station, \DateTime $start, $end = null){
+        $qb = $this->createQueryBuilder('b');
+
+        $qb
+            ->where('b.createdAt >= :start')
+            ->setParameter('start', $start)
+            ->andWhere('b.station = :station')
+            ->setParameter('station', $station)
+        ;
+
+        if ($end){
+            $qb
+                ->andWhere('b.createdAt <= :end')
+                ->setParameter('end', $end)
+            ;
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }
