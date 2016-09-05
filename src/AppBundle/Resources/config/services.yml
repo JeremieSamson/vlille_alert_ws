@@ -1,0 +1,3 @@
+services:
+    vlille.grabber:
+        class: AppBundle\Service\VlilleGrabber
