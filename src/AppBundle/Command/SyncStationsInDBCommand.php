@@ -34,6 +34,7 @@ class SyncStationsInDBCommand extends ContainerAwareCommand
             ->setDescription('Sync all stations in database with VLille API')
         ;
     }
+
     /**
      * @inheritdoc
      */
@@ -56,6 +57,12 @@ class SyncStationsInDBCommand extends ContainerAwareCommand
         $output->writeln('<comment>Executed in ' . $interval->format('%s secondes') . '</comment>');
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     *
+     * @throws \Exception
+     */
     protected function sync(InputInterface $input, OutputInterface $output)
     {
         /** @var EntityManager $em */
