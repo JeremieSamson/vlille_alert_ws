@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Station;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -12,4 +13,29 @@ use Doctrine\ORM\EntityRepository;
  */
 class AttachsAvailableRepository extends EntityRepository
 {
+    /**
+     * @param Station $station
+     * @param \DateTime $start
+     * @param null $end
+     * @return array
+     */
+    public function findAttachsByDate(Station $station, \DateTime $start, $end = null){
+        $qb = $this->createQueryBuilder('a');
+
+        $qb
+            ->where('a.createdAt >= :start')
+            ->setParameter('start', $start)
+            ->andWhere('a.station = :station')
+            ->setParameter('station', $station)
+        ;
+
+        if ($end){
+            $qb
+                ->andWhere('a.createdAt <= :end')
+                ->setParameter('end', $end)
+            ;
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }
