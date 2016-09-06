@@ -1,0 +1,12 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block content %}
+    <div>
+        <a href="{{ path('add_alert') }}">Ajouter une alert</a>
+    </div>
+
+    {% for alert in alerts %}
+        {{ dump(alert) }}
+    {% endfor %}
+{% endblock %}
+

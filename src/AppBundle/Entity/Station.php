@@ -118,11 +118,19 @@ class Station
     private $bikes;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Alert", mappedBy="station")
+     */
+    private $alerts;
+
+    /**
      * Constructor
      */
     public function __construct(){
         $this->attachs = new ArrayCollection();
         $this->bikes   = new ArrayCollection();
+        $this->alerts  = new ArrayCollection();
     }
 
     /**
@@ -377,5 +385,43 @@ class Station
     public function setLng($lng)
     {
         $this->lng = $lng;
+    }
+
+    /**
+     * @param Alert $alert
+     *
+     * @return $this
+     */
+    public function addAlert(Alert $alert){
+        $this->alerts->add($alert);
+
+        $alert->setStation($this);
+
+        return $this;
+    }
+
+    /**
+     * @param Alert $alert
+     *
+     * @return $this
+     */
+    public function removeAlert(Alert $alert){
+        $this->alerts->removeElement($alert);
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getAlerts(){
+        return $this->alerts;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(){
+        return $this->getAdress();
     }
 }
