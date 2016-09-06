@@ -75,6 +75,15 @@ class Station
     private $stationid;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="nb_attachs", type="integer")
+     * @Expose
+     * @Groups({"default"})
+     */
+    private $nbAttachs;
+
+    /**
      * @var float
      *
      * @ORM\Column(name="latitude", type="float")
@@ -96,6 +105,7 @@ class Station
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="AttachsAvailable", mappedBy="station")
+     * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $attachs;
 
@@ -103,6 +113,7 @@ class Station
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="BikesAvailable", mappedBy="station")
+     * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $bikes;
 
@@ -171,6 +182,22 @@ class Station
     }
 
     /**
+     * @return int
+     */
+    public function getNbAttachs()
+    {
+        return $this->nbAttachs;
+    }
+
+    /**
+     * @param int $nbAttachs
+     */
+    public function setNbAttachs($nbAttachs)
+    {
+        $this->nbAttachs = $nbAttachs;
+    }
+
+    /**
      * @param BikesAvailable $bike
      *
      * @return $this
@@ -205,6 +232,16 @@ class Station
     }
 
     /**
+     * Get bikes
+     *
+     * @return BikesAvailable
+     */
+    public function getLastBikeAvailable()
+    {
+        return $this->bikes->last();
+    }
+
+    /**
      * @param AttachsAvailable $attach
      *
      * @return $this
@@ -236,6 +273,16 @@ class Station
     public function getAttachs()
     {
         return $this->attachs;
+    }
+
+    /**
+     * Get bikes
+     *
+     * @return AttachsAvailable
+     */
+    public function getLastAttachsAvailable()
+    {
+        return $this->attachs->last();
     }
 
     /**

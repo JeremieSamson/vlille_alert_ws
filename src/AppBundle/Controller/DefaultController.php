@@ -32,8 +32,8 @@ class DefaultController extends Controller
         /** @var Station $ruedesarts */
         $ruedesarts = $em->getRepository('AppBundle:Station')->find(23);
 
-        $start = \DateTime::createFromFormat("Y-m-d H:i:s", "2016-09-03 09:00:00");
-        $end = \DateTime::createFromFormat("Y-m-d H:i:s", "2016-09-03 10:00:00");
+        $start = \DateTime::createFromFormat("Y-m-d H:i:s", "2016-09-05 09:00:00");
+        $end = \DateTime::createFromFormat("Y-m-d H:i:s", "2016-09-05 11:00:00");
 
         $bikesdata = $attachsdata = $dates = array();
         $bikes = $bikesRepository->findBikesByDate($ruedesarts, $start, $end);
@@ -67,12 +67,12 @@ class DefaultController extends Controller
         $ob = new Highchart();
         // ID de l'élement de DOM que vous utilisez comme conteneur
         $ob->chart->renderTo('linechart');
-        $ob->title->text('Bénéfices du 21/06/2013 au 27/06/2013');
+        $ob->title->text('Disponibilité des Vlille ' .$start->format('H:i'). ' et ' . $end->format('H:i') . ' le ' . $start->format('d/m/Y'));
         $ob->chart->type('column');
 
-        $ob->yAxis->title(array('text' => "Bénéfices (millions d'euros)"));
+        $ob->yAxis->title(array('text' => "Nombre d'attaches disponible"));
 
-        $ob->xAxis->title(array('text' => "Date du jours"));
+        $ob->xAxis->title(array('text' => "Date"));
         $ob->xAxis->categories($dates);
 
         $ob->series($sellsHistory);

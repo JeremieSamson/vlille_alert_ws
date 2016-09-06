@@ -84,14 +84,25 @@ class SyncStationsInDBCommand extends ContainerAwareCommand
             //Add new bikes availabilty
             $bikeAvailability = new BikesAvailable();
             $bikeAvailability->setBikes($model->getBikes());
-            $station->addBike($bikeAvailability);
-            $em->persist($bikeAvailability);
+
+            if ($station->getLastBikeAvailable()->getBikes() != $bikeAvailability->getBikes()){
+                $station->addBike($bikeAvailability);
+                $em->persist($bikeAvailability);
+            }
 
             //Add new attach availabilty
             $attachAvailability = new AttachsAvailable();
             $attachAvailability->setAttachs($model->getAttachs());
-            $station->addAttach($attachAvailability);
-            $em->persist($attachAvailability);
+
+            if ($station->getLastAttachsAvailable()->getAttachs() != $attachAvailability->getAttachs()){
+                $station->addAttach($attachAvailability);
+                $em->persist($attachAvailability);
+            }
+
+            $nbAttachs = $bikeAvailability->getBikes() + $attachAvailability->getAttachs();
+            if ($station->getNbAttachs() != $nbAttachs) {
+                $station->setNbAttachs($nbAttachs);
+            }
 
             //Send email if no places left
             if ($model->getAdress() == "41 RUE DES ARTS" && $attachAvailability->getAttachs() == 0){
