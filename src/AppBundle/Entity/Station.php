@@ -32,6 +32,15 @@ class Station
     /**
      * @var string
      *
+     * @ORM\Column(name="name", type="string", length=255)
+     * @Expose
+     * @Groups({"default"})
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="adress", type="string", length=255, nullable=true)
      * @Expose
      * @Groups({"default"})
@@ -141,6 +150,22 @@ class Station
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 
     /**
