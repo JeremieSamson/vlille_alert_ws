@@ -271,7 +271,7 @@ class Station
      */
     public function getLastBikeAvailable()
     {
-        return $this->bikes->last();
+        return ($this->bikes->count() == 0) ? null : $this->bikes->last();
     }
 
     /**
@@ -315,7 +315,7 @@ class Station
      */
     public function getLastAttachsAvailable()
     {
-        return $this->attachs->last();
+        return ($this->attachs->count() == 0) ? null : $this->attachs->last();
     }
 
     /**

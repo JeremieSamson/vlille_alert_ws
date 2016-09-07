@@ -100,7 +100,7 @@ class SyncAlertsCommand extends ContainerAwareCommand
             $bikeAvailability = new BikesAvailable();
             $bikeAvailability->setBikes($model->getBikes());
 
-            if ($station->getBikes()->count() == 0){
+            if (!$station->getLastBikeAvailable()){
                 $station->addBike($bikeAvailability);
             } else if ($station->getLastBikeAvailable()->getBikes() != $bikeAvailability->getBikes()) {
                 $station->addBike($bikeAvailability);
@@ -112,7 +112,7 @@ class SyncAlertsCommand extends ContainerAwareCommand
             $attachAvailability = new AttachsAvailable();
             $attachAvailability->setAttachs($model->getAttachs());
 
-            if ($station->getBikes()->count() == 0){
+            if (!$station->getLastAttachsAvailable()){
                 $station->addAttach($attachAvailability);
             } else if ($station->getLastAttachsAvailable()->getAttachs() != $attachAvailability->getAttachs()){
                 $station->addAttach($attachAvailability);
