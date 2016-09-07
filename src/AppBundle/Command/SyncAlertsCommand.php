@@ -102,11 +102,11 @@ class SyncAlertsCommand extends ContainerAwareCommand
 
             if (!$station->getLastBikeAvailable()){
                 $station->addBike($bikeAvailability);
+                $em->persist($bikeAvailability);
             } else if ($station->getLastBikeAvailable()->getBikes() != $bikeAvailability->getBikes()) {
                 $station->addBike($bikeAvailability);
+                $em->persist($bikeAvailability);
             }
-
-            $em->persist($bikeAvailability);
 
             //Add new attach availabilty
             $attachAvailability = new AttachsAvailable();
@@ -114,11 +114,11 @@ class SyncAlertsCommand extends ContainerAwareCommand
 
             if (!$station->getLastAttachsAvailable()){
                 $station->addAttach($attachAvailability);
+                $em->persist($attachAvailability);
             } else if ($station->getLastAttachsAvailable()->getAttachs() != $attachAvailability->getAttachs()){
                 $station->addAttach($attachAvailability);
+                $em->persist($attachAvailability);
             }
-
-            $em->persist($attachAvailability);
 
             //Send email if no places left
             if ($attachAvailability->getAttachs() == 0){
