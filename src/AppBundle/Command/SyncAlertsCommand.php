@@ -100,19 +100,25 @@ class SyncAlertsCommand extends ContainerAwareCommand
             $bikeAvailability = new BikesAvailable();
             $bikeAvailability->setBikes($model->getBikes());
 
-            if ($station->getLastBikeAvailable() && $station->getLastBikeAvailable()->getBikes() != $bikeAvailability->getBikes()){
+            if ($station->getBikes()->count() == 0){
                 $station->addBike($bikeAvailability);
-                $em->persist($bikeAvailability);
+            } else ($station->getLastBikeAvailable()->getBikes() != $bikeAvailability->getBikes()){
+                $station->addBike($bikeAvailability);
             }
+
+            $em->persist($bikeAvailability);
 
             //Add new attach availabilty
             $attachAvailability = new AttachsAvailable();
             $attachAvailability->setAttachs($model->getAttachs());
 
-            if ($station->getLastAttachsAvailable() && $station->getLastAttachsAvailable()->getAttachs() != $attachAvailability->getAttachs()){
+            if ($station->getBikes()->count() == 0){
                 $station->addAttach($attachAvailability);
-                $em->persist($attachAvailability);
+            } else if ($station->getLastAttachsAvailable()->getAttachs() != $attachAvailability->getAttachs()){
+                $station->addAttach($attachAvailability);
             }
+
+            $em->persist($attachAvailability);
 
             //Send email if no places left
             if ($attachAvailability->getAttachs() == 0){
