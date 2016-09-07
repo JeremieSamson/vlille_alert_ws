@@ -41,11 +41,23 @@ class AlertController extends Base
         if ($formHandler->process()) {
             $this->addFlash("success", "L'alert a bien été ajouté");
 
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('alert_list');
         }
 
         return $this->render('AppBundle:alert:new.html.twig', array(
             'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @Route("/user", name="alert_list")
+     */
+    public function indexAction(Request $request)
+    {
+        $alerts = $this->getAlertRepository()->findAllAlertsByUser($this->getUser());
+
+        return $this->render('AppBundle:alert:list.html.twig', array(
+            'alerts' => $alerts
         ));
     }
 }

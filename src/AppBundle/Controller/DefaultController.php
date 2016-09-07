@@ -21,10 +21,6 @@ class DefaultController extends Base
      */
     public function indexAction(Request $request)
     {
-        $alerts = $this->getAlertRepository()->findAllAlertsByUser($this->getUser());
-
-        return $this->render('AppBundle:alert:list.html.twig', array(
-            'alerts' => $alerts
-        ));
+        return $this->render('AppBundle::index.html.twig');
     }
 }

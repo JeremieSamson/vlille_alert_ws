@@ -5,8 +5,10 @@
         <a href="{{ path('add_alert') }}">Ajouter une alert</a>
     </div>
 
+    <ul>
     {% for alert in alerts %}
-        {{ dump(alert) }}
+        {{ alert.nom }}
     {% endfor %}
+    </ul>
 {% endblock %}
 

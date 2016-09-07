@@ -17,7 +17,7 @@ security:
             form_login:
                 provider:       fos_userbundle
                 login_path:     fos_user_security_login
-                default_target_path: homepage
+                default_target_path: alert_list
                 use_forward:    true
                 check_path:     fos_user_security_check
                 failure_path:   null
@@ -28,7 +28,7 @@ security:
             anonymous:    true
 
     access_control:
-        - { path: ^/, role: ROLE_USER }
+        - { path: ^/user, role: ROLE_USER }
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }

@@ -5,6 +5,7 @@ namespace AppBundle\Form\Type;
 use AppBundle\Form\Type\Base\FormType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,11 +20,14 @@ class AlertType extends FormType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('start', DateType::class, $this->getDateOptions())
-            ->add('end', DateType::class,  $this->getDateOptions())
+            ->add('start', DateTimeType::class, $this->getDateOptions())
+            ->add('end', DateTimeType::class,  $this->getDateOptions())
             ->add('station', EntityType::class, array(
                 'required' => false,
-                'class' => 'AppBundle:Station'
+                'class' => 'AppBundle:Station',
+                'attr' => array(
+                    "class" => "select2"
+                )
             ))
         ;
     }
