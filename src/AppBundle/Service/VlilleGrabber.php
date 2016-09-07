@@ -35,12 +35,14 @@ class VlilleGrabber
 
                 /** @var \DOMElement $station_xml */
                 foreach($stations_xml as $station_xml) {
-                    $id  = $station_xml->getAttribute('id');
-                    $lat  = $station_xml->getAttribute('lat');
+                    $id    = $station_xml->getAttribute('id');
+                    $name  = $station_xml->getAttribute('name');
+                    $lat   = $station_xml->getAttribute('lat');
                     $lng   = $station_xml->getAttribute('lng');
 
                     $marker = new Marker();
                     $marker->setId($id);
+                    $marker->setName($name);
                     $marker->setLat($lat);
                     $marker->setLng($lng);
 

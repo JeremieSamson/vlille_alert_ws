@@ -32,6 +32,15 @@ class Station
     /**
      * @var string
      *
+     * @ORM\Column(name="name", type="string", length=255)
+     * @Expose
+     * @Groups({"default"})
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="adress", type="string", length=255, nullable=true)
      * @Expose
      * @Groups({"default"})
@@ -77,7 +86,7 @@ class Station
     /**
      * @var int
      *
-     * @ORM\Column(name="nb_attachs", type="integer")
+     * @ORM\Column(name="nb_attachs", type="integer", nullable=true)
      * @Expose
      * @Groups({"default"})
      */
@@ -141,6 +150,22 @@ class Station
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 
     /**
@@ -246,7 +271,7 @@ class Station
      */
     public function getLastBikeAvailable()
     {
-        return $this->bikes->last();
+        return ($this->bikes->count() == 0) ? null : $this->bikes->last();
     }
 
     /**
@@ -290,7 +315,7 @@ class Station
      */
     public function getLastAttachsAvailable()
     {
-        return $this->attachs->last();
+        return ($this->attachs->count() == 0) ? null : $this->attachs->last();
     }
 
     /**

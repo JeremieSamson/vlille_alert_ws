@@ -11,7 +11,7 @@ class FormType extends AbstractType
             'required' => $required,
             'widget' => 'single_text',
             'attr' => array(
-                'class'  => 'datetime',
+                'class'  => 'timepicker',
             )
         );
     }

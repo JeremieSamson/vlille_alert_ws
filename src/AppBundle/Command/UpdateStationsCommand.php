@@ -19,18 +19,15 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Date: 12/04/16
  * Time: 20:03
  */
-class SyncStationsInDBCommand extends ContainerAwareCommand
+class UpdateStationsCommand extends ContainerAwareCommand
 {
-    const URL = "http://vlille.fr/stations/xml-station.aspx";
-    const KEY = "borne";
-
     /**
      * @inheritdoc
      */
     protected function configure()
     {
         $this
-            ->setName('vlille:sync:dbstations')
+            ->setName('vlille:sync:update')
             ->setDescription('Sync all stations in database with VLille API')
         ;
     }
@@ -88,32 +85,9 @@ class SyncStationsInDBCommand extends ContainerAwareCommand
             $station->setAdress($model->getAdress());
             $station->setStatus($model->getStatus());
 
-            //Add new bikes availabilty
-            $bikeAvailability = new BikesAvailable();
-            $bikeAvailability->setBikes($model->getBikes());
-
-            if ($station->getLastBikeAvailable()->getBikes() != $bikeAvailability->getBikes()){
-                $station->addBike($bikeAvailability);
-                $em->persist($bikeAvailability);
-            }
-
-            //Add new attach availabilty
-            $attachAvailability = new AttachsAvailable();
-            $attachAvailability->setAttachs($model->getAttachs());
-
-            if ($station->getLastAttachsAvailable()->getAttachs() != $attachAvailability->getAttachs()){
-                $station->addAttach($attachAvailability);
-                $em->persist($attachAvailability);
-            }
-
-            $nbAttachs = $bikeAvailability->getBikes() + $attachAvailability->getAttachs();
+            $nbAttachs = $model->getBikes() + $model->getAttachs();
             if ($station->getNbAttachs() != $nbAttachs) {
                 $station->setNbAttachs($nbAttachs);
-            }
-
-            //Send email if no places left
-            if ($model->getAdress() == "41 RUE DES ARTS" && $attachAvailability->getAttachs() == 0){
-                $this->sendEmail();
             }
 
             $station->setPaiement($model->hasPaiement());
@@ -128,30 +102,5 @@ class SyncStationsInDBCommand extends ContainerAwareCommand
 
         // Ending the progress bar process
         $progress->finish();
-    }
-
-    /**
-     * Send Email
-     */
-    protected function sendEmail(){
-        $message = \Swift_Message::newInstance()
-            ->setSubject("Il n'y a plus de place !")
-            ->setFrom('noreply@vlille-alert.com')
-            ->setTo('jeremie.samson76@gmail.com')
-            ->setBody(
-                ":'(",
-                'text/html'
-            )
-        ;
-
-        $this->getContainer()->get('mailer')->send($message);
-    }
-
-    /**
-     * @param $id
-     * @return string
-     */
-    protected function getUrl($id){
-        return self::URL . '?' . self::KEY . '=' . $id;
     }
 }

@@ -7,7 +7,7 @@
 
     <ul>
     {% for alert in alerts %}
-        {{ alert.nom }}
+        <li>{{ alert.station ~ ' entre ' ~ alert.start|date('H:m') ~ ' et ' ~ alert.end|date('H:m') }}</li>
     {% endfor %}
     </ul>
 {% endblock %}

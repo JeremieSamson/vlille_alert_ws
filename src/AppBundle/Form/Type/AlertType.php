@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,9 +20,16 @@ class AlertType extends FormType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class)
-            ->add('start', DateTimeType::class, $this->getDateOptions())
-            ->add('end', DateTimeType::class,  $this->getDateOptions())
+            ->add('start', TimeType::class, array(
+                'attr' => array(
+                    'class'  => 'tismepicker',
+                )
+            ))
+            ->add('end', TimeType::class, array(
+                'attr' => array(
+                    'class'  => 'timsepicker',
+                )
+            ))
             ->add('station', EntityType::class, array(
                 'required' => false,
                 'class' => 'AppBundle:Station',

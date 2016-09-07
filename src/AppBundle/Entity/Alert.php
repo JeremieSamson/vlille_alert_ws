@@ -23,23 +23,16 @@ class Alert
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
-    private $name;
-
-    /**
      * @var \DateTime
      *
-     * @ORM\Column(name="start", type="datetime")
+     * @ORM\Column(name="start", type="time")
      */
     private $start;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="end", type="datetime")
+     * @ORM\Column(name="end", type="time")
      */
     private $end;
 
@@ -82,45 +75,7 @@ class Alert
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     * @return Alert
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set start
-     *
-     * @param \DateTime $start
-     * @return Alert
-     */
-    public function setStart($start)
-    {
-        $this->start = $start;
-
-        return $this;
-    }
-
-    /**
-     * Get start
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getStart()
     {
@@ -128,26 +83,27 @@ class Alert
     }
 
     /**
-     * Set end
-     *
-     * @param \DateTime $end
-     * @return Alert
+     * @param \DateTime $start
      */
-    public function setEnd($end)
+    public function setStart($start)
     {
-        $this->end = $end;
-
-        return $this;
+        $this->start = $start;
     }
 
     /**
-     * Get end
-     *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getEnd()
     {
         return $this->end;
+    }
+
+    /**
+     * @param \DateTime $end
+     */
+    public function setEnd($end)
+    {
+        $this->end = $end;
     }
 
     /**

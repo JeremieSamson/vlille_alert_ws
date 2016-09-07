@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Date: 12/04/16
  * Time: 20:03
  */
-class InitStationsCommand extends ContainerAwareCommand
+class SyncStationsCommand extends ContainerAwareCommand
 {
     /**
      * @inheritdoc
@@ -26,7 +26,7 @@ class InitStationsCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('vlille:init:stations')
+            ->setName('vlille:sync:stations')
             ->setDescription('Initialise all stations IDs and geolocalisation')
         ;
     }
@@ -77,6 +77,7 @@ class InitStationsCommand extends ContainerAwareCommand
             $station = (!$station_db) ? new Station() : $station_db;
 
             $station->setLastupd($date);
+            $station->setName($marker->getName());
             $station->setLat($marker->getLat());
             $station->setLng($marker->getLng());
 
