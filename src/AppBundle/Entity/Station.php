@@ -86,7 +86,7 @@ class Station
     /**
      * @var int
      *
-     * @ORM\Column(name="nb_attachs", type="integer")
+     * @ORM\Column(name="nb_attachs", type="integer", nullable=true)
      * @Expose
      * @Groups({"default"})
      */
