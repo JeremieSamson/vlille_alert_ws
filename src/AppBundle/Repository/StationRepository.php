@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use UserBundle\Entity\User;
 
 /**
  * StationRepository
@@ -12,4 +13,20 @@ use Doctrine\ORM\EntityRepository;
  */
 class StationRepository extends EntityRepository
 {
+    /**
+     * @param User $user
+     *
+     * @return array
+     */
+    public function findAllStationsByUser(User $user){
+        $qb = $this->createQueryBuilder('s');
+
+        $qb
+            ->leftJoin('s.alerts', 'a')
+            ->where('a.user = :user')
+            ->setParameter('user', $user)
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
 }

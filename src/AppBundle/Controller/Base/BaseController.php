@@ -3,11 +3,19 @@
 namespace AppBundle\Controller\Base;
 
 use AppBundle\Repository\AlertRepository;
+use AppBundle\Repository\StationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 
 class BaseController extends Controller
 {
+    /**
+     * @return StationRepository
+     */
+    public function getStationRepository(){
+        return $this->getManager()->getRepository('AppBundle:Station');
+    }
+
     /**
      * @return AlertRepository
      */

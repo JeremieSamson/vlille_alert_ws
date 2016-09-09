@@ -2,8 +2,8 @@
 
 {% block content %}
     <h1 class="page-header">
-        Mes alerts
-        <a class="btn icon-btn btn-success" href="{{ path('add_alert') }}">
+        Mes stations
+        <a class="btn icon-btn btn-success" href="">
             <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
         </a>
     </h1>
@@ -11,8 +11,8 @@
     <div class="row placeholders">
 
         <ul>
-        {% for alert in alerts %}
-            <li>{{ alert.station ~ ' entre ' ~ alert.start|date('H:m') ~ ' et ' ~ alert.end|date('H:m') }}</li>
+        {% for station in stations %}
+            <li>{{ station ~ ' ' ~ station.getLastAttachsAvailable.attachs ~ '/' ~ station.nbAttachs }}</li>
         {% endfor %}
         </ul>
     </div>

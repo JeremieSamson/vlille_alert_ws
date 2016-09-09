@@ -50,7 +50,7 @@ class AlertController extends Base
     }
 
     /**
-     * @Route("/user", name="alert_list")
+     * @Route("/alert", name="alert_list")
      */
     public function indexAction(Request $request)
     {

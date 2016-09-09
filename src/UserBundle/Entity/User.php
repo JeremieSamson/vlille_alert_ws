@@ -65,6 +65,21 @@ class User extends BaseUser
     /**
      * @return ArrayCollection
      */
+    public function getStations(){
+        $stations = new ArrayCollection();
+
+        /** @var Alert $alert */
+        foreach($this->alerts as $alert){
+            if (!$stations->contains($alert->getStation()))
+                $stations->add($alert->getStation());
+        }
+
+        return $stations;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
     public function getAlerts(){
         return $this->alerts;
     }
