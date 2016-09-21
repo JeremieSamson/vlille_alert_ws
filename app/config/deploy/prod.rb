@@ -1,4 +1,4 @@
-set :deploy_to, "/var/www/vlille_alert.fr"
+set :deploy_to, "/var/www/vlille-alert.fr"
 set :domain, "ns378858.ip-5-196-69.eu"
 set :user, "jerem"
 set :symfony_env_prod, "prod"

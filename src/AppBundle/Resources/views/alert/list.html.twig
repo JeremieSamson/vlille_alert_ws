@@ -8,8 +8,7 @@
         </a>
     </h1>
 
-    <div class="row placeholders">
-
+    <div class="row">
         <ul>
         {% for alert in alerts %}
             <li>{{ alert.station ~ ' entre ' ~ alert.start|date('H:m') ~ ' et ' ~ alert.end|date('H:m') }}</li>

@@ -3,9 +3,11 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="{{ asset('bundles/app/css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/styles.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2-rc.1/css/select2.min.css" rel="stylesheet" />
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
 {% endblock %}
 
 {% block body %}
@@ -14,18 +16,18 @@
     </nav>
 
     <div class="container-fluid">
-        <div class="row">
+
             {% if app.user %}
                 {% include 'AppBundle::sidebar.html.twig' %}
             {% endif %}
-            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <div class="col-md-9 main content">
                 {% for flashMessage in app.session.flashbag.get('success') %}
                     <div class="alert alert-success">{{ flashMessage }}</div>
                 {% endfor %}
 
                 {% block content %}{% endblock %}
             </div>
-        </div>
+
     </div>
 {% endblock %}
 
@@ -35,6 +37,7 @@
     <script src="//code.highcharts.com/4.1.8/highcharts.js"></script>
     <script src="//code.highcharts.com/4.1.8/modules/exporting.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2-rc.1/js/select2.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
@@ -48,6 +51,7 @@
         $(document).ready(function() {
             $(".select2").select2();
         });
+
     </script>
     {% block script %}{% endblock %}
 {% endblock %}

@@ -23,4 +23,12 @@ class DefaultController extends Base
     {
         return $this->render('AppBundle::index.html.twig');
     }
+
+    /**
+     * @Route("/user/map", name="map")
+     */
+    public function mapAction(Request $request)
+    {
+        return $this->render('AppBundle:map:map.html.twig');
+    }
 }

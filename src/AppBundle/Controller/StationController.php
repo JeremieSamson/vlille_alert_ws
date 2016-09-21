@@ -36,4 +36,16 @@ class StationController extends Base
             'stations' => $stations
         ));
     }
+
+    /**
+     * @Route("/user/station/all", name="stations")
+     */
+    public function listAction(Request $request)
+    {
+        $stations = $this->getStationRepository()->findAll();
+
+        return $this->render('AppBundle:station:stations.html.twig', array(
+            'stations' => $stations
+        ));
+    }
 }
