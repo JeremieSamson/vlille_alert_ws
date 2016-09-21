@@ -38,4 +38,20 @@ class BikesAvailableRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * @param \DateTime $start
+     *
+     * @return array
+     */
+    public function findOldDataByDate(\DateTime $start){
+        $qb = $this->createQueryBuilder('b');
+
+        $qb
+            ->where('b.createdAt < :start')
+            ->setParameter('start', $start)
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
 }

@@ -113,14 +113,6 @@ class Station
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="AttachsAvailable", mappedBy="station")
-     * @ORM\OrderBy({"createdAt" = "ASC"})
-     */
-    private $attachs;
-
-    /**
-     * @var ArrayCollection
-     *
      * @ORM\OneToMany(targetEntity="BikesAvailable", mappedBy="station")
      * @ORM\OrderBy({"createdAt" = "ASC"})
      */
@@ -137,7 +129,6 @@ class Station
      * Constructor
      */
     public function __construct(){
-        $this->attachs = new ArrayCollection();
         $this->bikes   = new ArrayCollection();
         $this->alerts  = new ArrayCollection();
     }
@@ -272,50 +263,6 @@ class Station
     public function getLastBikeAvailable()
     {
         return ($this->bikes->count() == 0) ? null : $this->bikes->last();
-    }
-
-    /**
-     * @param AttachsAvailable $attach
-     *
-     * @return $this
-     */
-    public function addAttach(AttachsAvailable $attach){
-        $this->attachs->add($attach);
-
-        $attach->setStation($this);
-
-        return $this;
-    }
-
-    /**
-     * @param AttachsAvailable $attach
-     *
-     * @return $this
-     */
-    public function removeAttach(AttachsAvailable $attach){
-        $this->attachs->removeElement($attach);
-
-        return $this;
-    }
-
-    /**
-     * Get attachs
-     *
-     * @return ArrayCollection
-     */
-    public function getAttachs()
-    {
-        return $this->attachs;
-    }
-
-    /**
-     * Get bikes
-     *
-     * @return AttachsAvailable
-     */
-    public function getLastAttachsAvailable()
-    {
-        return ($this->attachs->count() == 0) ? null : $this->attachs->last();
     }
 
     /**

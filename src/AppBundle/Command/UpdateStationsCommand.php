@@ -90,6 +90,13 @@ class UpdateStationsCommand extends ContainerAwareCommand
                 $station->setNbAttachs($nbAttachs);
             }
 
+            if ($station->getBikes()->count() == 0 || $model->getBikes() != $station->getLastBikeAvailable()->getBikes()) {
+                $bikesAvailabe = new BikesAvailable();
+                $bikesAvailabe->setBikes($model->getBikes());
+                $station->addBike($bikesAvailabe);
+                $em->persist($bikesAvailabe);
+            }
+
             $station->setPaiement($model->hasPaiement());
             $station->setLastupd($model->getLastupdAsDate());
 
