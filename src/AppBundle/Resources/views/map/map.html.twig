@@ -8,27 +8,42 @@
     <div id="map"></div>
 {% endblock %}
 
+{% macro getMarker(station) %}
+    {
+        "latitude": "{{ station.lat }}",
+        "longitude":"{{ station.lng }}",
+        "baloon_text": '{% spaceless %}{{- _self.getBaloonText(station) -}}{% endspaceless %}'
+    }
+{% endmacro %}
+
+{% macro getBaloonText(station) %}
+        <div>
+            <span>{{ station.name }}</span>
+            <p>Vélo disponible : {{ station.getAvailableBikes() }}<br>Place disponible : {{ station.getAvailablePlaces() }}<br></p>
+        </div>
+{% endmacro %}
+
 {% block script %}
 <script>
     $(document).ready(function(){
         $(function() {
-            var w = $(".container").width();
+            var w = $(".content").width();
             var h = window.innerHeight;
             $("#map").width(w).height(h);
         });
 
         //set up markers
         var myMarkers = {"markers": [
-            {% for station in stations if station.lng and station.lat %}
-                {"latitude": "{{ station.lat }}", "longitude":"{{ station.lng }}"},
+            {% for station in stations %}
+                {{ _self.getMarker(station) }}{% if not loop.last %},{% endif %}
             {% endfor %}
         ]
         };
 
         //set up map options
         $("#map").mapmarker({
-            zoom : 5,
-            center : 'France',
+            zoom : 14,
+            center : 'Lille',
             markers : myMarkers
         });
     });

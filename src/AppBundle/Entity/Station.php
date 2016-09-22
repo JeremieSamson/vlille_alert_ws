@@ -266,6 +266,20 @@ class Station
     }
 
     /**
+     * @return int
+     */
+    public function getAvailableBikes(){
+        return $this->getLastBikeAvailable()->getBikes();
+    }
+
+    /**
+     * @return int
+     */
+    public function getAvailablePlaces(){
+        return $this->nbAttachs - $this->getLastBikeAvailable()->getBikes();
+    }
+
+    /**
      * Set paiement
      *
      * @param boolean $paiement
