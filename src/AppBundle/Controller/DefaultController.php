@@ -29,6 +29,10 @@ class DefaultController extends Base
      */
     public function mapAction(Request $request)
     {
-        return $this->render('AppBundle:map:map.html.twig');
+        $stations = $this->getDoctrine()->getManager()->getRepository('AppBundle:Station')->findAll();
+
+        return $this->render('AppBundle:map:map.html.twig', array(
+            "stations" => $stations
+        ));
     }
 }

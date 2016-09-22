@@ -4,4 +4,33 @@
     <h1 class="page-header">
         Carte
     </h1>
+
+    <div id="map"></div>
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function(){
+        $(function() {
+            var w = $(".container").width();
+            var h = window.innerHeight;
+            $("#map").width(w).height(h);
+        });
+
+        //set up markers
+        var myMarkers = {"markers": [
+            {% for station in stations if station.lng and station.lat %}
+                {"latitude": "{{ station.lat }}", "longitude":"{{ station.lng }}"},
+            {% endfor %}
+        ]
+        };
+
+        //set up map options
+        $("#map").mapmarker({
+            zoom : 5,
+            center : 'France',
+            markers : myMarkers
+        });
+    });
+</script>
 {% endblock %}
