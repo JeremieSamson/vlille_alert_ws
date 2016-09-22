@@ -9,40 +9,7 @@
     </h1>
 
     <div class="row placeholders">
-
-        <table class="datatable" id="stations">
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Vélo disponible</th>
-                    <th>Emplacement disponible</th>
-                    <td>Nombre d'emplacement</td>
-                    <td>CB</td>
-                    <td>Dernière synchronisation</td>
-                </tr>
-            </thead>
-
-            <tfoot>
-                <tr>
-                    <th>Nom</th>
-                    <th>Vélo disponible</th>
-                    <th>Emplacement disponible</th>
-                    <td>Nombre d'emplacement</td>
-                    <td>CB</td>
-                    <td>Dernière synchronisation</td>
-                </tr>
-            </tfoot>
-        {% for station in stations %}
-            <tr>
-                <td>{{ station }}</td>
-                <td>{{ station.getLastBikeAvailable|length }}</td>
-                <td>{{ station.getLastAttachsAvailable|length }}</td>
-                <td>{{ station.nbAttachs }}</td>
-                <td><i class="glyphicon glyphicon glyphicon-credit-card {% if station.paiement %}green{% else %}red{% endif %}"></i></td>
-                <td>{{ station.lastupd|date('s') }}s</td>
-            </tr>
-        {% endfor %}
-        </table>
+        {% include 'AppBundle:station:datatable.html.twig' with {'stations': stations} %}
     </div>
 {% endblock %}
 

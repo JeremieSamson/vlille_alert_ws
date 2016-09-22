@@ -1,9 +1,15 @@
 {% extends 'AppBundle::main_layout.html.twig' %}
 
 {% block content %}
-
+    {% for station in stations %}
+        <div id="linechart_{{ station.id }}"  style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+    {% endfor %}
 {% endblock %}
 
 {% block script %}
-
+    <script type="text/javascript">
+        {% for chart in charts %}
+            {{ chart(chart) }}
+        {% endfor %}
+    </script>
 {% endblock %}

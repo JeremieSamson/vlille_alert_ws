@@ -1,3 +1,6 @@
 services:
     vlille.grabber:
         class: AppBundle\Service\VlilleGrabber
+    vlille.highchart:
+        class: AppBundle\Service\VlilleHighChart
+        arguments: ['@doctrine.orm.entity_manager']

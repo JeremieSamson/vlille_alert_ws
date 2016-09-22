@@ -408,6 +408,6 @@ class Station
      * @return string
      */
     public function __toString(){
-        return $this->getAdress();
+        return $this->getName();
     }
 }

@@ -17,8 +17,10 @@ namespace AppBundle\Controller;
 
 use AppBundle\Controller\Base\BaseController as Base;
 use AppBundle\Entity\Alert;
+use AppBundle\Entity\Station;
 use AppBundle\Form\Type\AlertType;
 use AppBundle\Form\Handler\AlertHandler;
+use AppBundle\Service\HighChart;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use UserBundle\Entity\User;
@@ -47,5 +49,12 @@ class StationController extends Base
         return $this->render('AppBundle:station:stations.html.twig', array(
             'stations' => $stations
         ));
+    }
+
+    /**
+     * @Route("/user/station/{id}/chart", name="station_chart")
+     */
+    public function getChartAction(Station $station){
+
     }
 }

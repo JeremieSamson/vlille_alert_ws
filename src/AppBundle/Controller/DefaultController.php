@@ -8,6 +8,7 @@ use AppBundle\Entity\BikesAvailable;
 use AppBundle\Entity\Station;
 use AppBundle\Repository\AttachsAvailableRepository;
 use AppBundle\Repository\BikesAvailableRepository;
+use AppBundle\Service\VlilleHighChart;
 use Doctrine\ORM\EntityManager;
 use Ob\HighchartsBundle\Highcharts\Highchart;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -21,7 +22,22 @@ class DefaultController extends Base
      */
     public function indexAction(Request $request)
     {
-        return $this->render('AppBundle::index.html.twig');
+        $stations = $this->getStationRepository()->findAllStationsByUser($this->getUser());
+
+        /** @var VlilleHighChart $highchartService */
+        $highchartService = $this->container->get('vlille.highchart');
+
+        $charts = array();
+
+        /** @var Station $station */
+        foreach($stations as $station) {
+            $charts[] = $highchartService->getStationAvailabilityChart($station);
+        }
+
+        return $this->render('AppBundle::index.html.twig', array(
+            "charts" => $charts,
+            "stations" => $stations
+        ));
     }
 
     /**

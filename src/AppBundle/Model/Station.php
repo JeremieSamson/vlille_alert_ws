@@ -17,7 +17,7 @@ namespace AppBundle\Model;
 
 class Station
 {
-    const PAIEMENT = "AVEc_TPE";
+    const PAIEMENT = "AVEC_TPE";
 
     /**
      * @var string

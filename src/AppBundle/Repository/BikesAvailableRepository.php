@@ -40,6 +40,24 @@ class BikesAvailableRepository extends EntityRepository
     }
 
     /**
+     * @param Station $station
+     *
+     * @return array
+     */
+    public function findTodayAvailability(Station $station){
+        $qb = $this->createQueryBuilder('b');
+
+        $qb
+            ->where('b.createdAt >= :start')
+            ->setParameter('start', new \DateTime(date('Y-m-d')))
+            ->andWhere('b.station = :station')
+            ->setParameter('station', $station)
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
      * @param \DateTime $start
      *
      * @return array

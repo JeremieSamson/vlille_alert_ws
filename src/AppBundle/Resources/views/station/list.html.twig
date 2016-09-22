@@ -9,12 +9,20 @@
     </h1>
 
     <div class="row placeholders">
-
-        <ul>
-        {% for station in stations %}
-            <li>{{ station ~ ' ' ~ station.getLastAttachsAvailable.attachs ~ '/' ~ station.nbAttachs }}</li>
-        {% endfor %}
-        </ul>
+        {% include 'AppBundle:station:datatable.html.twig' with {'stations': stations} %}
     </div>
 {% endblock %}
 
+{% block script %}
+    <script>
+        $(document).ready(function() {
+            var options =  {
+                "paging":   false,
+                "ordering": true,
+                "info":     false
+            };
+
+            $('#stations').DataTable(options);
+        });
+    </script>
+{% endblock %}
